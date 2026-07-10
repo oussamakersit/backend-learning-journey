@@ -1,20 +1,46 @@
 const fs = require("fs");
-const http = require("http");
+
+// const textInput = fs.readFileSync("./txt/input.txt", "utf8");
+// console.log(textInput);
+
+// const textOut = `So this is what we know about: \n${textInput}`;
+// fs.writeFileSync(`./txt/newOutput.txt`, textOut);
+// console.log("The file has been written");
+
+// const newOutput = fs.readFileSync("./txt/newOutput.txt", "utf8");
+// console.log(newOutput);
+
+// fs.readFile("./txt/start.txt", "utf-8", (err, data) => {
+//   if (err) return console.log("Error");
+
+//   fs.readFile(`./txt/${data}.txt`, "utf-8", (err, data1) => {
+//     console.log(data1);
+//     fs.readFile(`./txt/append.txt`, "utf-8", (err, data2) => {
+//       console.log(data2);
+
+//       fs.writeFile("./txt/newFinal.txt", `${data1}\n\n${data2}`, (err) => {
+//         console.log("Error while writing file");
+//       });
+//     });
+//   });
+// });
+
+// const fs = require("fs");
+// const http = require("http");
 
 //? ///////////////////////////////
 //? Files
 
 // Blocking Synchronously way
-/**
-const textIn = fs.readFileSync("./txt/input.txt", "utf-8");
-console.log(textIn);
-const textOut = `This is what we know about avocado: ${textIn}\nCreated on ${Date.now()}`;
-fs.writeFileSync("./txt/output.txt", textOut);
-console.log("File written!");
- */
+
+// const textIn = fs.readFileSync("./txt/input.txt", "utf-8");
+// console.log(textIn);
+// const textOut = `This is what we know about avocado: ${textIn}\nCreated on ${Date.now()}`;
+// fs.writeFileSync("./txt/output.txt", textOut);
+// console.log("File written!");
 
 // Non-Blocking Asynchronously way
-// fs.readFile("./txt/start.txt", "utf8", (err, data1) => {
+// fs.readFile("./txt/start.txt", "utcf8", (err, data1) => {
 //   if (err) return console.log("ERROR!!");
 
 //   fs.readFile(`./txt/${data1}.txt`, "utf8", (err, data2) => {
@@ -32,10 +58,10 @@ console.log("File written!");
 
 //? ///////////////////////////////
 //? Server
-const server = http.createServer((req, res) => {
-  res.end("Hello From the server!");
-});
+// const server = http.createServer((req, res) => {
+//   res.end("Hello From the server!");
+// });
 
-server.listen(8000, "127.0.0.1", () => {
-  console.log("Listening to requests on port 8000");
-});
+// server.listen(8000, "127.0.0.1", () => {
+//   console.log("Listening to requests on port 8000");
+// });
