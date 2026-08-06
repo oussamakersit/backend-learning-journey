@@ -2,17 +2,30 @@ const fs = require('fs');
 
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
+
+app.use((req, res, next) => {
+  console.log(`Hello from the Middleware`);
+  next();
+});
+
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
 
 // Built-in Middleware
+app.use(morgan('dev'));
 app.use(express.json());
 
 // Reading local Data file
-const tours = JSON.parse(fs.readFileSync(`./dev-data/data/tours-simplef.json`));
+const tours = JSON.parse(fs.readFileSync(`./dev-data/data/tours-simple.json`));
 
 const getAllTours = (req, res) => {
   res.status(200).json({
     status: 'Success',
     results: tours.length,
+    requestedAt: req.requestTime,
     data: {
       tours: tours,
     },
@@ -125,6 +138,40 @@ const deleteTour = (req, res) => {
   });
 };
 
+const getAllUsers = (req, res) => {
+  res.status(500).json({
+    status: 'Error',
+    message: 'This route is not implemented yet',
+  });
+};
+
+const getUser = (req, res) => {
+  res.status(500).json({
+    status: 'Error',
+    message: 'This route is not implemented yet',
+  });
+};
+
+const createUser = (req, res) => {
+  res.status(500).json({
+    status: 'Error',
+    message: 'This route is not implemented yet',
+  });
+};
+
+const updateUser = (req, res) => {
+  res.status(500).json({
+    status: 'Error',
+    message: 'This route is not implemented yet',
+  });
+};
+const deleteUser = (req, res) => {
+  res.status(500).json({
+    status: 'Error',
+    message: 'This route is not implemented yet',
+  });
+};
+
 // Route handlers
 
 // app.get('/api/v1/tours', getAllTours);
@@ -139,6 +186,13 @@ app
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
+
+app.route('/api/v1/users').get(getAllUsers).post(createUser);
+app
+  .route('/api/v1/users/:id')
+  .get(getUser)
+  .patch(updateUser)
+  .delete(deleteUser);
 
 const PORT = 8000;
 app.listen(PORT, '127.0.0.1', () =>
