@@ -4,23 +4,33 @@ const Tour = require('../models/tourModel');
 exports.getAllTours = async (req, res) => {
   // An empty find() will return all documents in our targeted collection
   try {
+    console.log(req.query);
+
     //? Build the Query
+    // 1) Filtering
     const queryObj = { ...req.query };
     const excludeFields = ['page', 'sort', 'limit', 'fields'];
     excludeFields.forEach((el) => delete queryObj[el]);
 
-    console.log(req.query, queryObj);
+    // 2) Advanced Filtering
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
-    const query = Tour.find(queryObj);
+    // MongoDb Query { difficulty: 'easy', duration: { $gte: '5' } }
+    // req.query Query { difficulty: 'easy', duration: { gte: '5' } } | Here we missies ($) sign
+    // gte, gt, lte, lt
+
+    const query = Tour.find(JSON.parse(queryStr));
+    console.log(queryStr);
+
+    //? Execute the Query
+    const tours = await query;
 
     // const query = await Tour.find()
     //   .where('duration')
     //   .equals(5)
     //   .where('difficulty')
     //   .equals('easy');
-
-    //? Execute the Query
-    const tours = await query;
 
     // Send Response
     res.status(200).json({
