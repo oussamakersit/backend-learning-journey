@@ -7,12 +7,12 @@ exports.getAllTours = async (req, res) => {
     console.log(req.query);
 
     //? Build the Query
-    // 1) Filtering
+    // 1-A) Basic Filtering
     const queryObj = { ...req.query };
     const excludeFields = ['page', 'sort', 'limit', 'fields'];
     excludeFields.forEach((el) => delete queryObj[el]);
 
-    // 2) Advanced Filtering
+    // 1-B) Advanced Filtering
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
@@ -20,8 +20,21 @@ exports.getAllTours = async (req, res) => {
     // req.query Query { difficulty: 'easy', duration: { gte: '5' } } | Here we missies ($) sign
     // gte, gt, lte, lt
 
-    const query = Tour.find(JSON.parse(queryStr));
-    console.log(queryStr);
+    let query = Tour.find(JSON.parse(queryStr));
+    // console.log(queryStr);
+
+    // 2) Sorting
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ');
+      // console.log(sortBy);
+      query = query.sort(sortBy);
+      // sort('price ratingsAverage)
+    } else {
+      // Default sorting by max Group Size (You can sort by anytype you want)
+      query = query.sort('-maxGroupSize');
+    }
+    // To sort in descending order, add a minus sign (-) before the query parameter value: 127.0.0.1:3000/api/v1/tours?sort=-price
+    // For ascending order, pass the parameter normally without a minus sign: 127.0.0.1:3000/api/v1/tours?sort=price
 
     //? Execute the Query
     const tours = await query;
