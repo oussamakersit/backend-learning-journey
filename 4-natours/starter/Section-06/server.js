@@ -7,14 +7,14 @@ dns.setServers(['8.8.8.8', '1.1.1.1']);
 dotenv.config({ path: './config.env' });
 const app = require('./app');
 
-const DB = process.env.REMOTE_DATABASE.replace(
+const DB = process.env.DEV_REMOTE_DATABASE.replace(
   '<db_password>',
   process.env.DATABASE_PASSWORD,
 );
 mongoose
   .connect(DB)
   .then(() => {
-    console.log(`DB connected successfully`);
+    console.log(`Development DB connected successfully`);
   })
   .catch((err) => {
     console.log(`DB connection failed: ${err}`);

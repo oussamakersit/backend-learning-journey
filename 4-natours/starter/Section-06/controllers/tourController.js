@@ -36,6 +36,15 @@ exports.getAllTours = async (req, res) => {
     // To sort in descending order, add a minus sign (-) before the query parameter value: 127.0.0.1:3000/api/v1/tours?sort=-price
     // For ascending order, pass the parameter normally without a minus sign: 127.0.0.1:3000/api/v1/tours?sort=price
 
+    // 3) Limiting or projection
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ');
+      query = query.select(fields);
+    } else {
+      query = query.select('-__v');
+      // Here we exclude the __v from the default value (In the context of APIs, especially when working with MongoDB and Mongoose (the Node.js ODM for MongoDB), __v is a field automatically added to documents)
+    }
+
     //? Execute the Query
     const tours = await query;
 
