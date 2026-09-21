@@ -1,6 +1,35 @@
 /* eslint-disable prettier/prettier */
 const Tour = require('../models/tourModel');
 
+// exports.aliasTopTour = (req, res, next) => {
+//   req.query.limit = '5';
+//   req.query.sort = '-ratingsAverage,price';
+//   req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
+//   next();
+// };
+
+exports.getTop5Cheap = async (req, res) => {
+  try {
+    const tours = await Tour.find()
+      .sort('-ratingsAverage price')
+      .limit(5)
+      .select('name price ratingsAverage summary difficulty');
+
+    res.status(200).json({
+      status: 'success',
+      results: tours.length,
+      data: {
+        tours,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+};
+
 exports.getAllTours = async (req, res) => {
   // An empty find() will return all documents in our targeted collection
   try {
