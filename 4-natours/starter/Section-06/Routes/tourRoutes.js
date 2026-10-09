@@ -12,6 +12,7 @@ router.route('/top-5-cheap').get(tourController.getTop5Cheap);
 //   .get(tourController.aliasTopTour, tourController.getAllTours);
 
 router.route('/tour-stats').get(tourController.tourStats);
+router.route('/monthly-plan/:year').get(tourController.getMontlyPlan);
 
 router
   .route('/')
