@@ -55,6 +55,7 @@ const tourSchema = new mongoose.Schema(
     },
     startDates: [Date],
   },
+  // Schema Options - Virtual properties
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
