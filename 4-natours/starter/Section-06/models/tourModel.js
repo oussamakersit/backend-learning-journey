@@ -96,7 +96,13 @@ tourSchema.pre(/^find/, function () {
 
 tourSchema.post(/^find/, function (doc) {
   console.log(`Query took ${Date.now() - this.start} ms`);
-  console.log(doc);
+  // console.log(doc);
+});
+
+// Aggrogate middlware
+tourSchema.pre('aggregate', function () {
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+  console.log(this.pipeline());
 });
 
 const Tour = mongoose.model('Tour', tourSchema);
