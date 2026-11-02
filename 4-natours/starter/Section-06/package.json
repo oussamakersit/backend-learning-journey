@@ -8,8 +8,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "cross-env nodemon server.js",
-    "dev:local": "cross-env nodemon server.js",
-    "start:prod": "cross-env NODE_ENV=production nodemon server.js"
+    "start:prod": "cross-env NODE_ENV=production nodemon server.js",
+    "debug": "node --inspect-brk server.js"
   },
   "dependencies": {
     "cross-env": "^10.1.0",
